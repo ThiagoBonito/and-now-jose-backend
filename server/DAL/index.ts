@@ -1,0 +1,1 @@
+export { getLogin } from "./dal";
