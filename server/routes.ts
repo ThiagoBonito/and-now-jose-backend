@@ -7,6 +7,7 @@ import {
   postRegister,
   postCreateModulesUser,
   putFinishClass,
+  getTest,
 } from "./DAL";
 
 export const routes = express.Router();
@@ -52,7 +53,7 @@ routes.get("/currentModule", async (req, res) => {
     return res.status(200).send(consultDataBase);
   } catch (e) {
     console.log(e);
-    return res.status(400).send("Houve um Erro ao criar os Módulos!");
+    return res.status(400).send("Houve um Erro ao carregar o Módulo!");
   }
 });
 
@@ -67,7 +68,22 @@ routes.get("/class", async (req, res) => {
     return res.status(200).send(consultDataBase);
   } catch (e) {
     console.log(e);
-    return res.status(400).send("Houve um Erro ao criar os Módulos!");
+    return res.status(400).send("Houve um Erro ao carregar a Aula!");
+  }
+});
+
+routes.get("/test", async (req, res) => {
+  const { module } = req.body;
+  if (!module) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getTest(module);
+    return res.status(200).send(consultDataBase);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao carregar a Revisão!");
   }
 });
 

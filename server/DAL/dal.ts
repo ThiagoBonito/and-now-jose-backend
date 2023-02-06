@@ -58,6 +58,20 @@ export const getClass = async (title: string) => {
     });
 };
 
+export const getTest = async (module: string) => {
+  return database
+    .query(
+      `select * from tests t
+      where t."module" = '${module}'`
+    )
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
 export const postRegister = async (
   name: string,
   email: string,
