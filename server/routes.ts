@@ -2,8 +2,11 @@ import express from "express";
 import {
   getLogin,
   getModules,
+  getCurrentModule,
+  getClass,
   postRegister,
   postCreateModulesUser,
+  putFinishClass,
 } from "./DAL";
 
 export const routes = express.Router();
@@ -20,6 +23,51 @@ routes.get("/login", async (req, res) => {
   } catch (e) {
     console.log(e);
     return res.status(400).send("Usuário ou senha incorretas");
+  }
+});
+
+routes.get("/modules", async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getModules(email);
+    return res.status(200).send(consultDataBase);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao criar os Módulos!");
+  }
+});
+
+routes.get("/currentModule", async (req, res) => {
+  const { module, email } = req.body;
+  if (!email || !module) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getCurrentModule(module, email);
+    return res.status(200).send(consultDataBase);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao criar os Módulos!");
+  }
+});
+
+routes.get("/class", async (req, res) => {
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getClass(title);
+    return res.status(200).send(consultDataBase);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao criar os Módulos!");
   }
 });
 
@@ -59,18 +107,17 @@ routes.post("/createModulesUser", async (req, res) => {
   }
 });
 
-routes.get("/modules", async (req, res) => {
-  const { email } = req.body;
-  console.log(email);
-  if (!email) {
+routes.put("/finishClass", async (req, res) => {
+  const { classesWatched, email, module } = req.body;
+  if (!email || !classesWatched || !module) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
 
   try {
-    const consultDataBase = await getModules(email);
-    return res.status(200).send(consultDataBase);
+    const updateDataBase = await putFinishClass(classesWatched, email, module);
+    return res.status(200).send("Aula Finalizada com sucesso!");
   } catch (e) {
     console.log(e);
-    return res.status(400).send("Houve um Erro ao criar os Módulos!");
+    return res.status(400).send("Houve um Erro ao finalizar a Aula!");
   }
 });
