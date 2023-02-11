@@ -14,4 +14,5 @@ export const database = new Pool({
   database: "andnowjose",
   password: "HBAkgMgQgbrbc5A4HvqyhhmdiZ5U0WFm",
   port: 5432,
+  ssl: true,
 });
