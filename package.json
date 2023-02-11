@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Back-End E agora José",
   "main": "index.js",
+  "engines": {
+    "node": ">= 16"
+  },
   "scripts": {
     "dev": "ts-node-dev server/server.ts",
     "build": "tsup server --out-dir build"
