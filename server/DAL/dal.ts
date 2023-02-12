@@ -11,6 +11,7 @@ export const getLogin = async (email: string, password: string) => {
       return result.rows[0];
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -25,6 +26,7 @@ export const getModules = async (email: string) => {
       return result.rows;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -40,6 +42,7 @@ export const getCurrentModule = async (module: string, email: string) => {
       return result.rows;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -54,6 +57,7 @@ export const getClass = async (title: string) => {
       return result.rows;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -68,6 +72,7 @@ export const getTest = async (module: string) => {
       return result.rows;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -88,6 +93,7 @@ export const postRegister = async (
       return;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -95,22 +101,22 @@ export const postRegister = async (
 export const postCreateModulesUser = async (email: string) => {
   return database
     .query(
-      `INSERT INTO modules (name, classesWatched, allClasses, email, route)
+      `INSERT INTO modules (name, classeswatched, allclasses, email, route)
       VALUES ('Básico do WhatsApp', 0, 10, '${email}', 'WhatsApp');
 
-      INSERT INTO modulesDetails ("module", classeswatched, allclasses, classes, email)
+      INSERT INTO modulesdetails ("module", classeswatched, allclasses, classes, email)
       VALUES ('WhatsApp', 0, 10, '[{"id": 1, "title": "Instalando o WhatsApp", "isFinished": true},{"id": 2, "title": "Configurando sua Conta", "isFinished": false}]', '${email}');
 
-      INSERT INTO modules (name, classesWatched, allClasses, email, route)
+      INSERT INTO modules (name, classeswatched, allclasses, email, route)
       VALUES ('Navegação na Internet', 0, 10, '${email}', 'Internet');
 
-      INSERT INTO modulesDetails ("module", classeswatched, allclasses, classes, email)
+      INSERT INTO modulesdetails ("module", classeswatched, allclasses, classes, email)
       VALUES ('Internet', 0, 10, '[{"id": 1, "title": "Conhecendo o Google", "isFinished": true},{"id": 2, "title": "Pesquisas Avançadas", "isFinished": false}]', '${email}');
 
-      INSERT INTO modules (name, classesWatched, allClasses, email, route)
+      INSERT INTO modules (name, classeswatched, allclasses, email, route)
       VALUES ('Segurança na Rede', 0, 10, '${email}', 'Seguranca');
       
-      INSERT INTO modulesDetails ("module", classeswatched, allclasses, classes, email)
+      INSERT INTO modulesdetails ("module", classeswatched, allclasses, classes, email)
       VALUES ('Seguranca', 0, 10, '[{"id": 1, "title": "Instalando o Anti-vírus", "isFinished": true},{"id": 2, "title": "Descobrir se um site é confiável", "isFinished": false}]', '${email}');
       `
     )
@@ -118,6 +124,7 @@ export const postCreateModulesUser = async (email: string) => {
       return;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
@@ -140,6 +147,7 @@ export const putFinishClass = async (
       return;
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 };
