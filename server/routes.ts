@@ -12,23 +12,27 @@ import {
 
 export const routes = express.Router();
 
-routes.get("/login", async (req, res) => {
-  const { email, password } = req.body;
+routes.post("/login", async (req, res) => {
+  const { email, password } = req.body.auth;
   if (!email && !password) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
 
   try {
     const consultDataBase = await getLogin(email, password);
-    return res.status(200).send(consultDataBase);
+    if (!consultDataBase) {
+      return res.status(400).send("Usuário ou senha incorretas");
+    } else {
+      return res.status(200).send(consultDataBase);
+    }
   } catch (e) {
     console.log(e);
     return res.status(400).send("Usuário ou senha incorretas");
   }
 });
 
-routes.get("/modules", async (req, res) => {
-  const { email } = req.body;
+routes.post("/modules", async (req, res) => {
+  const { email } = req.body.auth;
   if (!email) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -42,8 +46,8 @@ routes.get("/modules", async (req, res) => {
   }
 });
 
-routes.get("/currentModule", async (req, res) => {
-  const { module, email } = req.body;
+routes.post("/currentModule", async (req, res) => {
+  const { module, email } = req.body.auth;
   if (!email || !module) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -57,8 +61,8 @@ routes.get("/currentModule", async (req, res) => {
   }
 });
 
-routes.get("/class", async (req, res) => {
-  const { title } = req.body;
+routes.post("/class", async (req, res) => {
+  const { title } = req.body.auth;
   if (!title) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -72,8 +76,8 @@ routes.get("/class", async (req, res) => {
   }
 });
 
-routes.get("/test", async (req, res) => {
-  const { module } = req.body;
+routes.post("/test", async (req, res) => {
+  const { module } = req.body.auth;
   if (!module) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -88,7 +92,7 @@ routes.get("/test", async (req, res) => {
 });
 
 routes.post("/register", async (req, res) => {
-  const { name, email, password, username, image } = req.body;
+  const { name, email, password, username, image } = req.body.auth;
   if (!name || !email || !password || !username) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -109,7 +113,7 @@ routes.post("/register", async (req, res) => {
 });
 
 routes.post("/createModulesUser", async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.body.auth;
   if (!email) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -124,7 +128,7 @@ routes.post("/createModulesUser", async (req, res) => {
 });
 
 routes.put("/finishClass", async (req, res) => {
-  const { classesWatched, email, module } = req.body;
+  const { classesWatched, email, module } = req.body.auth;
   if (!email || !classesWatched || !module) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
