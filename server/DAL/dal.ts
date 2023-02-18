@@ -20,7 +20,8 @@ export const getModules = async (email: string) => {
   return database
     .query(
       `select * from modules m
-      where m.email = '${email}'`
+      where m.email = '${email}'
+      order by id`
     )
     .then((result) => {
       return result.rows;
