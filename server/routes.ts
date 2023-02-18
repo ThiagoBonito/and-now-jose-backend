@@ -161,13 +161,18 @@ routes.post("/insertRanking", async (req, res) => {
 });
 
 routes.put("/finishClass", async (req, res) => {
-  const { classesWatched, email, module } = req.body.auth;
-  if (!email || !classesWatched || !module) {
+  const { classesWatched, email, title, module } = req.body.auth;
+  if (!email || !classesWatched || !title || !module) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
 
   try {
-    const updateDataBase = await putFinishClass(classesWatched, email, module);
+    const updateDataBase = await putFinishClass(
+      classesWatched,
+      email,
+      title,
+      module
+    );
     return res.status(200).send("Aula Finalizada com sucesso!");
   } catch (e) {
     console.log(e);

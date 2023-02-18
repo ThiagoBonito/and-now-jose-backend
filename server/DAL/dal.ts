@@ -170,6 +170,7 @@ export const postRanking = async (
 export const putFinishClass = async (
   classesWatched: number,
   email: string,
+  title: string,
   module: string
 ) => {
   return database
@@ -179,6 +180,21 @@ export const putFinishClass = async (
       
       update modulesDetails md set classeswatched = ${classesWatched}
       where md.email = '${email}' and md."module" = '${module}';
+
+      UPDATE modulesDetails
+      SET classes = subquery.new_classes
+      FROM (
+      SELECT jsonb_agg(
+      CASE 
+      WHEN c->>'title' = '${title}' 
+      THEN jsonb_set(c, '{isFinished}', 'true'::jsonb) 
+      ELSE c 
+      END
+    ) AS new_classes
+    FROM modulesDetails, jsonb_array_elements(classes) AS c
+    WHERE classes @> '[{"title": "${title}"}]' AND email = '${email}' AND module = '${module}'
+    ) AS subquery
+    WHERE modulesDetails.email = '${email}' AND modulesDetails.module = '${module}';
       `
     )
     .then((result) => {
