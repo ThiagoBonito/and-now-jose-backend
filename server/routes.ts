@@ -8,6 +8,9 @@ import {
   postCreateModulesUser,
   putFinishClass,
   getTest,
+  getCurrentRanking,
+  postRanking,
+  putRanking,
 } from "./DAL";
 
 export const routes = express.Router();
@@ -91,6 +94,21 @@ routes.post("/test", async (req, res) => {
   }
 });
 
+routes.post("/checkRanking", async (req, res) => {
+  const { email, module } = req.body.auth;
+  if (!email || !module) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getCurrentRanking(email, module);
+    return res.status(200).send(consultDataBase);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao buscar os Rankings!");
+  }
+});
+
 routes.post("/register", async (req, res) => {
   const { name, email, password, username, image } = req.body.auth;
   if (!name || !email || !password || !username) {
@@ -127,6 +145,21 @@ routes.post("/createModulesUser", async (req, res) => {
   }
 });
 
+routes.post("/insertRanking", async (req, res) => {
+  const { email, ranking, module } = req.body.auth;
+  if (!email || !ranking || !module) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const insertDataBase = await postRanking(email, ranking, module);
+    return res.status(200).send("Ranking inserido com sucesso!");
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao criar o Ranking!");
+  }
+});
+
 routes.put("/finishClass", async (req, res) => {
   const { classesWatched, email, module } = req.body.auth;
   if (!email || !classesWatched || !module) {
@@ -139,5 +172,20 @@ routes.put("/finishClass", async (req, res) => {
   } catch (e) {
     console.log(e);
     return res.status(400).send("Houve um Erro ao finalizar a Aula!");
+  }
+});
+
+routes.put("/updateRanking", async (req, res) => {
+  const { email, ranking, module } = req.body.auth;
+  if (!email || !ranking || !module) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const updateDataBase = await putRanking(email, ranking, module);
+    return res.status(200).send("Ranking atualizado com sucesso!");
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao atualizar o Ranking!");
   }
 });

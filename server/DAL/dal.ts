@@ -78,6 +78,22 @@ export const getTest = async (module: string) => {
     });
 };
 
+export const getCurrentRanking = async (email: string, module: string) => {
+  return database
+    .query(
+      `select * from rankings r
+      where r.email = '${email}'
+      and r.module = '${module}'`
+    )
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+};
+
 export const postRegister = async (
   name: string,
   email: string,
@@ -130,6 +146,27 @@ export const postCreateModulesUser = async (email: string) => {
     });
 };
 
+export const postRanking = async (
+  email: string,
+  ranking: number,
+  module: string
+) => {
+  return database
+    .query(
+      `
+      insert into rankings (module, ranking, email)
+      values ('${module}', ${ranking}, '${email}')
+      `
+    )
+    .then((result) => {
+      return;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+};
+
 export const putFinishClass = async (
   classesWatched: number,
   email: string,
@@ -142,6 +179,24 @@ export const putFinishClass = async (
       
       update modulesDetails md set classeswatched = ${classesWatched}
       where md.email = '${email}' and md."module" = '${module}';
+      `
+    )
+    .then((result) => {
+      return;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+};
+
+export const putRanking = (email: string, ranking: number, module: string) => {
+  return database
+    .query(
+      `
+      update rankings set ranking = ${ranking}
+      where email = '${email}'
+      and module = '${module}'
       `
     )
     .then((result) => {
