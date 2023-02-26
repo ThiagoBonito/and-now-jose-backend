@@ -1,5 +1,6 @@
 export { getLogin } from "./dal";
 export { getModules } from "./dal";
+export { getRankings } from "./dal";
 export { getCurrentModule } from "./dal";
 export { getClass } from "./dal";
 export { getTest } from "./dal";

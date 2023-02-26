@@ -32,6 +32,91 @@ export const getModules = async (email: string) => {
     });
 };
 
+export const getRankings = async (rankingPage = 0) => {
+  if (rankingPage === 1) {
+    return database
+      .query(
+        `
+        select u.name, u.image, b.data, b.totalpoints from (
+          SELECT a.email, a.data, SUM((elem->>'points')::int) AS totalpoints
+          FROM (
+            SELECT ra.email, jsonb_agg(row_to_json(r)) AS data
+            FROM (
+              SELECT email, ranking, module, 
+                SUM(
+                CASE 
+                  WHEN ranking = 5 THEN 5
+                  WHEN ranking = 4 THEN 10
+                  WHEN ranking = 3 THEN 15
+                  WHEN ranking = 2 THEN 20
+                  WHEN ranking = 1 THEN 25
+                  ELSE 0
+                END
+                ) AS points
+              FROM rankings ra
+              GROUP BY email, ranking, module 
+              ) r
+            INNER JOIN rankings ra ON r.email = ra.email AND r.module = ra.module
+            GROUP BY ra.email
+              ) a
+            CROSS JOIN LATERAL jsonb_array_elements(a.data) AS elem
+            GROUP BY a.email, a.data
+          ) b
+        INNER JOIN users u ON u.email = b.email
+        order by b.totalpoints desc;
+      `
+      )
+      .then((result) => {
+        return result.rows;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  } else {
+    return database
+      .query(
+        `
+        select u.name, u.image, b.data, b.totalpoints from (
+          SELECT a.email, a.data, SUM((elem->>'points')::int) AS totalpoints
+          FROM (
+            SELECT ra.email, jsonb_agg(row_to_json(r)) AS data
+            FROM (
+              SELECT email, ranking, module, 
+                SUM(
+                CASE 
+                  WHEN ranking = 5 THEN 5
+                  WHEN ranking = 4 THEN 10
+                  WHEN ranking = 3 THEN 15
+                  WHEN ranking = 2 THEN 20
+                  WHEN ranking = 1 THEN 25
+                  ELSE 0
+                END
+                ) AS points
+              FROM rankings ra
+              GROUP BY email, ranking, module 
+              ) r
+            INNER JOIN rankings ra ON r.email = ra.email AND r.module = ra.module
+            GROUP BY ra.email
+              ) a
+            CROSS JOIN LATERAL jsonb_array_elements(a.data) AS elem
+            GROUP BY a.email, a.data
+          ) b
+        INNER JOIN users u ON u.email = b.email
+        order by b.totalpoints desc
+        limit 6;
+      `
+      )
+      .then((result) => {
+        return result.rows;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  }
+};
+
 export const getCurrentModule = async (module: string, email: string) => {
   return database
     .query(

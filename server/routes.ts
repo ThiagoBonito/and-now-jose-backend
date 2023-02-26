@@ -11,6 +11,7 @@ import {
   getCurrentRanking,
   postRanking,
   putRanking,
+  getRankings,
 } from "./DAL";
 
 export const routes = express.Router();
@@ -46,6 +47,17 @@ routes.post("/modules", async (req, res) => {
   } catch (e) {
     console.log(e);
     return res.status(400).send("Houve um Erro ao criar os Módulos!");
+  }
+});
+
+routes.get("/rankings/:rankingPage", async (req, res) => {
+  try {
+    const rankingPage = req.params.rankingPage;
+    const consultDataBase = await getRankings(Number(rankingPage));
+    return res.status(200).send(consultDataBase);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao trazer os Rankings!");
   }
 });
 
