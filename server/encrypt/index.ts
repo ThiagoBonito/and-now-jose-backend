@@ -22,14 +22,20 @@ export const encrypt = (password: string) => {
   return iv.toString("hex") + ":" + encrypted.toString("hex");
 };
 
-// export const decrypt = (passwordEncrypt: string) => {
-//   const crypto = require("crypto");
-//   const decipher = crypto.createDecipher(
-//     ENCRYPT_INFO.algorithm,
-//     ENCRYPT_INFO.secret
-//   );
+export const decrypt = (passwordEncrypt: string) => {
+  const crypto = require("crypto");
 
-//   decipher.update(passwordEncrypt, ENCRYPT_INFO.type);
+  const textParts = passwordEncrypt.split(":");
+  const iv = Buffer.from(textParts.shift()!, "hex");
+  const encryptedText = Buffer.from(textParts.join(":"), "hex");
+  const decipher = crypto.createDecipheriv(
+    ENCRYPT_INFO.algorithm,
+    Buffer.from(ENCRYPT_INFO.secret.toString("hex"), "hex"),
+    iv
+  );
 
-//   return decipher.final();
-// };
+  let decrypted = decipher.update(encryptedText);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+  return decrypted.toString("utf8");
+};
