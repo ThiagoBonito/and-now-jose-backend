@@ -14,6 +14,8 @@ import {
   getRankings,
 } from "./DAL";
 
+import { decrypt, encrypt } from "./encrypt";
+
 export const routes = express.Router();
 
 routes.post("/login", async (req, res) => {
@@ -23,11 +25,14 @@ routes.post("/login", async (req, res) => {
   }
 
   try {
-    const consultDataBase = await getLogin(email, password);
-    if (!consultDataBase) {
-      return res.status(400).send("Usuário ou senha incorretas");
-    } else {
+    const consultDataBase = await getLogin(email);
+
+    const decryptPasswordDataBase = decrypt(consultDataBase.password);
+
+    if (String(password) === String(decryptPasswordDataBase)) {
       return res.status(200).send(consultDataBase);
+    } else {
+      return res.status(400).send("Usuário ou senha incorretas");
     }
   } catch (e) {
     console.log(e);
@@ -127,11 +132,13 @@ routes.post("/register", async (req, res) => {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
 
+  const encryptedPassword = encrypt(password);
+
   try {
     const insertDataBase = await postRegister(
       name,
       email,
-      password,
+      encryptedPassword,
       username,
       image
     );

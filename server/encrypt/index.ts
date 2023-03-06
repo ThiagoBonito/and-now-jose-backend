@@ -1,18 +1,19 @@
-import crypto from "crypto";
+import crypto, { scryptSync } from "crypto";
+import dotenv from "dotenv";
+dotenv.config();
 
 const ENCRYPT_INFO = {
   algorithm: "aes-256-ctr",
   codification: "utf8",
-  secret: crypto.randomBytes(32),
-  type: "hex",
+  secret: process.env.SECRET_KEY as string,
+  type: "base64",
 };
 
 export const encrypt = (password: string) => {
-  const crypto = require("crypto");
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(
     ENCRYPT_INFO.algorithm,
-    ENCRYPT_INFO.secret,
+    Buffer.from(ENCRYPT_INFO.secret, "base64"),
     iv
   );
 
@@ -23,14 +24,12 @@ export const encrypt = (password: string) => {
 };
 
 export const decrypt = (passwordEncrypt: string) => {
-  const crypto = require("crypto");
-
   const textParts = passwordEncrypt.split(":");
   const iv = Buffer.from(textParts.shift()!, "hex");
   const encryptedText = Buffer.from(textParts.join(":"), "hex");
   const decipher = crypto.createDecipheriv(
     ENCRYPT_INFO.algorithm,
-    Buffer.from(ENCRYPT_INFO.secret.toString("hex"), "hex"),
+    Buffer.from(ENCRYPT_INFO.secret, "base64"),
     iv
   );
 

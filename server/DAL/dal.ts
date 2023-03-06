@@ -1,11 +1,10 @@
 import { database } from "./datasources";
 
-export const getLogin = async (email: string, password: string) => {
+export const getLogin = async (email: string) => {
   return database
     .query(
       `select * from users u
-      where u.email = '${email}'
-      and u.password = '${password}'`
+      where u.email = '${email}'`
     )
     .then((result) => {
       return result.rows[0];
