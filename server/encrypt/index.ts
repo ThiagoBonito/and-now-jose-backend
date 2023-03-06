@@ -5,7 +5,7 @@ dotenv.config();
 const ENCRYPT_INFO = {
   algorithm: "aes-256-ctr",
   codification: "utf8",
-  secret: process.env.SECRET_KEY as string,
+  secret: "UrVSe5OdwVignAhO040D37WQ4kB1RTYucQQofNbTrBM=",
   type: "base64",
 };
 
