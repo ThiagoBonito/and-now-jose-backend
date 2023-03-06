@@ -7,4 +7,3 @@ build
 # Datasources
 DAL/datasources.ts
 
-.env
