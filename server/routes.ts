@@ -66,6 +66,26 @@ routes.get("/rankings/:rankingPage", async (req, res) => {
   }
 });
 
+routes.post("/profile", async (req, res) => {
+  const { email } = req.body.auth;
+  if (!email) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getLogin(email);
+
+    if (consultDataBase) {
+      return res.status(200).send(consultDataBase);
+    } else {
+      return res.status(400).send("Usuário não encontrado");
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Usuário não encontrado");
+  }
+});
+
 routes.post("/currentModule", async (req, res) => {
   const { module, email } = req.body.auth;
   if (!email || !module) {
