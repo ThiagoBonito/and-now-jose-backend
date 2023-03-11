@@ -36,7 +36,7 @@ export const getRankings = async (rankingPage = 0) => {
     return database
       .query(
         `
-        select u.name, u.image, b.data, b.totalpoints from (
+        select u.name, u.image, b.data, b.totalpoints:: int from (
           SELECT a.email, a.data, SUM((elem->>'points')::int) AS totalpoints
           FROM (
             SELECT ra.email, jsonb_agg(row_to_json(r)) AS data
@@ -76,7 +76,7 @@ export const getRankings = async (rankingPage = 0) => {
     return database
       .query(
         `
-        select u.name, u.image, b.data, b.totalpoints from (
+        select u.name, u.image, b.data, b.totalpoints:: int from (
           SELECT a.email, a.data, SUM((elem->>'points')::int) AS totalpoints
           FROM (
             SELECT ra.email, jsonb_agg(row_to_json(r)) AS data
