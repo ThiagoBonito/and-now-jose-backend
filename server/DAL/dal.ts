@@ -203,10 +203,10 @@ export const postCreateModulesUser = async (email: string) => {
   return database
     .query(
       `INSERT INTO modules (name, classeswatched, allclasses, email, route)
-      VALUES ('Básico do WhatsApp', 0, 10, '${email}', 'WhatsApp');
+      VALUES ('Básico do WhatsApp', 0, 9, '${email}', 'WhatsApp');
 
-      INSERT INTO modulesdetails ("module", classeswatched, allclasses, classes, email)
-      VALUES ('WhatsApp', 0, 10, '[{"id": 1, "title": "Instalando o WhatsApp", "isFinished": true},{"id": 2, "title": "Configurando sua Conta", "isFinished": false}]', '${email}');
+      insert into modulesDetails ("module", classeswatched, allclasses, classes, email)
+      values ('WhatsApp', 0, 9, '[{"id": 1, "title": "Instalando o WhatsApp", "isFinished": false},{"id": 2, "title": "Personalizando o WhatsApp", "isFinished": false},{"id": 3, "title": "Iniciando uma Conversa", "isFinished": false},{"id": 4, "title": "Chamadas no WhatsApp", "isFinished": false},{"id": 5, "title": "Meus Emojis e Figurinhas", "isFinished": false},{"id": 6, "title": "Usando Multimídia", "isFinished": false},{"id": 7, "title": "Trabalho em Equipe", "isFinished": false},{"id": 8, "title": "Meu Status", "isFinished": false},{"id": 9, "title": "Segurança no WhatsApp", "isFinished": false}]', '${email}')
 
       INSERT INTO modules (name, classeswatched, allclasses, email, route)
       VALUES ('Navegação na Internet', 0, 10, '${email}', 'Internet');
