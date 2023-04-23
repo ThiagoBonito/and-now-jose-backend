@@ -307,3 +307,42 @@ export const putRanking = (email: string, ranking: number, module: string) => {
       return err;
     });
 };
+
+export const putUser = (
+  email: string,
+  fullName: string,
+  newPassword: string,
+  photo: string
+) => {
+  if (photo) {
+    return database
+      .query(
+        `
+        update users  set "name" = '${fullName}', "password" = '${newPassword}', image = '${photo}'
+        where email = '${email}'
+        `
+      )
+      .then((result) => {
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  } else {
+    return database
+      .query(
+        `
+        update users  set "name" = '${fullName}', "password" = '${newPassword}'
+        where email = '${email}'
+        `
+      )
+      .then((result) => {
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  }
+};

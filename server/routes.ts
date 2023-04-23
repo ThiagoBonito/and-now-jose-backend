@@ -12,6 +12,7 @@ import {
   postRanking,
   putRanking,
   getRankings,
+  putUser,
 } from "./DAL";
 
 import { decrypt, encrypt } from "./encrypt";
@@ -231,5 +232,34 @@ routes.put("/updateRanking", async (req, res) => {
   } catch (e) {
     console.log(e);
     return res.status(400).send("Houve um Erro ao atualizar o Ranking!");
+  }
+});
+
+routes.put("/updateUser", async (req, res) => {
+  const { email, fullName, oldPassword, newPassword, photo } = req.body.auth;
+  if (!email || !fullName || !oldPassword || !newPassword) {
+    return res.status(400).send("ERROR: Incorrect parameters");
+  }
+
+  try {
+    const consultDataBase = await getLogin(email);
+    const decryptPasswordDataBase = decrypt(consultDataBase.password);
+
+    if (oldPassword !== decryptPasswordDataBase) {
+      return res.status(400).send("Senha atual incorreta!");
+    }
+
+    const encryptedNewPassword = encrypt(newPassword);
+
+    const updateDataBase = await putUser(
+      email,
+      fullName,
+      encryptedNewPassword,
+      photo
+    );
+    return res.status(200).send("Usuário atualizado com sucesso!");
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Houve um Erro ao atualizar o usuário!");
   }
 });

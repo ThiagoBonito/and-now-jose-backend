@@ -12,3 +12,4 @@ export { postRanking } from "./dal";
 
 export { putFinishClass } from "./dal";
 export { putRanking } from "./dal";
+export { putUser } from "./dal";
