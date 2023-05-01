@@ -215,10 +215,10 @@ export const postCreateModulesUser = async (email: string) => {
       VALUES ('Internet', 0, 10, '[{"id": 1, "title": "Conhecendo o Google", "isFinished": true},{"id": 2, "title": "Pesquisas Avançadas", "isFinished": false}]', '${email}');
 
       INSERT INTO modules (name, classeswatched, allclasses, email, route)
-      VALUES ('Segurança na Rede', 0, 10, '${email}', 'Seguranca');
+      VALUES ('Segurança na Internet', 0, 6, '${email}', 'Seguranca');
       
       INSERT INTO modulesdetails ("module", classeswatched, allclasses, classes, email)
-      VALUES ('Seguranca', 0, 10, '[{"id": 1, "title": "Instalando o Anti-vírus", "isFinished": true},{"id": 2, "title": "Descobrir se um site é confiável", "isFinished": false}]', '${email}');
+      VALUES ('Seguranca', 0, 6, '[{"id": 1, "title": "Introdução à Segurança na Internet", "isFinished": false},{"id": 2, "title": "Fake News", "isFinished": false},{"id": 3, "title": "Golpes na Internet", "isFinished": false},{"id": 4, "title": "Reforçando as Senhas", "isFinished": false},{"id": 5, "title": "Vírus", "isFinished": false},{"id": 6, "title": "Criando um Ambiente Saudável", "isFinished": false}]', '${email}');
       `
     )
     .then((result) => {
