@@ -236,7 +236,8 @@ routes.put("/updateRanking", async (req, res) => {
 });
 
 routes.put("/updateUser", async (req, res) => {
-  const { email, fullName, oldPassword, newPassword, photo } = req.body.auth;
+  const { email, fullName, oldPassword, newPassword, photo, hasPhotoDeleted } =
+    req.body.auth;
   if (!email || !fullName || !oldPassword || !newPassword) {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
@@ -255,7 +256,8 @@ routes.put("/updateUser", async (req, res) => {
       email,
       fullName,
       encryptedNewPassword,
-      photo
+      photo,
+      hasPhotoDeleted
     );
     return res.status(200).send("Usuário atualizado com sucesso!");
   } catch (e) {

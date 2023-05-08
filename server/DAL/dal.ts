@@ -312,9 +312,27 @@ export const putUser = (
   email: string,
   fullName: string,
   newPassword: string,
-  photo: string
+  photo: string,
+  hasPhotoDeleted: boolean
 ) => {
-  if (photo) {
+  if (hasPhotoDeleted) {
+    return database
+      .query(
+        `
+        update users  set "name" = '${fullName}', "password" = '${newPassword}', image = null
+        where email = '${email}'
+        `
+      )
+      .then((result) => {
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  }
+
+  if (photo && !hasPhotoDeleted) {
     return database
       .query(
         `
