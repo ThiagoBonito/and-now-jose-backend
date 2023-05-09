@@ -212,7 +212,7 @@ export const postCreateModulesUser = async (email: string) => {
       VALUES ('Navegação na Internet', 0, 9, '${email}', 'Internet');
 
       insert into modulesDetails ("module", classeswatched, allclasses, classes, email)
-      values ('Internet', 0, 10, '[{"id": 1, "title": "Introdução a Navegação na Internet", "isFinished": false},{"id": 2, "title": "Navegando com o Google Chrome", "isFinished": false},{"id": 3, "title": "Minha Conta Google", "isFinished": false},{"id": 4, "title": "Barra de Ferramentas", "isFinished": false},{"id": 5, "title": "Imagens na Internet", "isFinished": false},{"id": 6, "title": "Notícias na Internet", "isFinished": false},{"id": 7, "title": "Vídeos na Internet", "isFinished": false},{"id": 8, "title": "Google Maps", "isFinished": false},{"id": 9, "title": "Compras no Google", "isFinished": false}]', '${email}')
+      values ('Internet', 0, 9, '[{"id": 1, "title": "Introdução a Navegação na Internet", "isFinished": false},{"id": 2, "title": "Navegando com o Google Chrome", "isFinished": false},{"id": 3, "title": "Minha Conta Google", "isFinished": false},{"id": 4, "title": "Barra de Ferramentas", "isFinished": false},{"id": 5, "title": "Imagens na Internet", "isFinished": false},{"id": 6, "title": "Notícias na Internet", "isFinished": false},{"id": 7, "title": "Vídeos na Internet", "isFinished": false},{"id": 8, "title": "Google Maps", "isFinished": false},{"id": 9, "title": "Compras no Google", "isFinished": false}]', '${email}')
 
       INSERT INTO modules (name, classeswatched, allclasses, email, route)
       VALUES ('Segurança na Internet', 0, 6, '${email}', 'Seguranca');
