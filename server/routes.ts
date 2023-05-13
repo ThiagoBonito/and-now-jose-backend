@@ -153,6 +153,19 @@ routes.post("/register", async (req, res) => {
     return res.status(400).send("ERROR: Incorrect parameters");
   }
 
+  try {
+    const userExists = await getLogin(email);
+
+    if (userExists) {
+      return res.status(400).send({ error: "Email já está sendo utilizado!" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res
+      .status(400)
+      .send({ error: `Houve um erro ao cadastrar o usuario: ${e}!` });
+  }
+
   const encryptedPassword = encrypt(password);
 
   try {
@@ -163,10 +176,12 @@ routes.post("/register", async (req, res) => {
       username,
       image
     );
-    return res.status(200).send("Inserido com sucesso!");
+    return res.status(200).send({ message: "Inserido com sucesso!" });
   } catch (e) {
     console.log(e);
-    return res.status(400).send("Houve um Erro ao cadastrar!");
+    return res
+      .status(400)
+      .send({ error: `Houve um erro ao cadastrar o usuario: ${e}!` });
   }
 });
 
