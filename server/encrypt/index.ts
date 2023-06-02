@@ -24,7 +24,7 @@ export const encrypt = (password: string) => {
 };
 
 export const decrypt = (passwordEncrypt: string) => {
-  const textParts = passwordEncrypt.split(":");
+  const textParts = passwordEncrypt?.split(":");
   const iv = Buffer.from(textParts.shift()!, "hex");
   const encryptedText = Buffer.from(textParts.join(":"), "hex");
   const decipher = crypto.createDecipheriv(
