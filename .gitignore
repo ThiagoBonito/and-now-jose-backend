@@ -7,3 +7,5 @@ build
 # Datasources
 server/DAL/datasources.ts
 
+#Variáveis de ambiente
+.env
