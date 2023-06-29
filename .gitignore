@@ -5,5 +5,5 @@ node_modules
 build
 
 # Datasources
-DAL/datasources.ts
+server/DAL/datasources.ts
 
